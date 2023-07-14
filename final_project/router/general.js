@@ -49,13 +49,10 @@ public_users.get('/',function (req, res, next) {
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
   //Write your code here
-  //return res.status(300).json({message: "Yet to be implemented"});
-  
   if (req.params.isbn>0&&req.params.isbn<11){
     return new Promise(function(resolve, reject){
-        res.send(books[req.params.isbn]);
+        resolve(res.send(books[req.params.isbn]));
     });
-    //return res.send(books[req.params.isbn]);
   } else {
       return res.status(300).json({message: "invalid isbn"});
   }
@@ -65,47 +62,21 @@ public_users.get('/isbn/:isbn',function (req, res) {
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
   //Write your code here
-  //return res.status(300).json({message: "Yet to be implemented"});
   let filteredBooks = [];
   return new Promise(function(resolve, reject){
     for (var i = 1; i<11; i++){
-        //console.log(i);
-        //let bookData = [];
-        //console.log(books[i].author);
         if (books[i].author === req.params.author){
-          //console.log(books[i].author+req.params.author);
           filteredBooks.push(books[i]);
         }
-        
     }
     if (filteredBooks.length>0){
         resolve(res.send(JSON.stringify(filteredBooks, null, 4)));
-        
-        //return res.send(JSON.stringify(filteredBooks, null, 4));
       }
       else {
         resolve(res.status(200).send("Author not found"));
       }
   });
-  /*for (var i = 1; i<11; i++){
-      //console.log(i);
-      //let bookData = [];
-      //console.log(books[i].author);
-      if (books[i].author === req.params.author){
-        //console.log(books[i].author+req.params.author);
-        filteredBooks.push(books[i]);
-      }
-      
-  }
-  if (filteredBooks.length>0){
-    return new Promise(function(resolve, reject){
-        res.send(JSON.stringify(filteredBooks, null, 4));
-    });
-    //return res.send(JSON.stringify(filteredBooks, null, 4));
-  }
-  else {
-    return res.status(200).send("Author not found");
-  }*/
+  
   return res.status(500).send("Error");
   
 });
@@ -113,13 +84,9 @@ public_users.get('/author/:author',function (req, res) {
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
   //Write your code here
-  //return res.status(300).json({message: "Yet to be implemented"});
   let filteredBooks = [];
   return new Promise(function(resolve, reject){
     for (var i = 1; i<11; i++){
-        //console.log(i);
-        //let bookData = [];
-        //console.log(books[i].author);
         if (books[i].title === req.params.title){
             console.log(books[i].title+req.params.title);
             filteredBooks.push(books[i]);
@@ -127,10 +94,10 @@ public_users.get('/title/:title',function (req, res) {
         
     }
     if (filteredBooks.length>0){
-        return res.send(JSON.stringify(filteredBooks, null, 4));
+        resolve(res.send(JSON.stringify(filteredBooks, null, 4)));
     }
     else {
-        return res.status(200).send("Title not found");
+        resolve(res.status(200).send("Title not found"));
     }
   });
   return res.status(500).send("Error");
